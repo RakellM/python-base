@@ -30,6 +30,6 @@ total_compra = compra["quantidade"] * compra["produto"]["preco"]
 
 print(
     f"O cliente {compra["cliente"]["nome"]}"
-    f" comprou {compra["quantidade"]} unidates de {compra["produto"]["nome"]}"
+    f" comprou {compra["quantidade"]} unidades de {compra["produto"]["nome"]}"
     f" e pagou o total de {total_compra}"
 )
