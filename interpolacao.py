@@ -7,17 +7,6 @@ __version__ = "0.2.0"
 __author__ = "Raquel Marques"
 __license__ = "Unlicense"
 
-email_tmpl = """
-Olá, %(nome)s
-
-Tem interesse em comprar %(produto)s?
-
-Clique agora em %(link)s
-
-Apenas %(quantidade)d disponíveis!
-
-Preço promocional %(preco).2f
-"""
 import sys
 import os
 
