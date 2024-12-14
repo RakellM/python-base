@@ -6,19 +6,16 @@ import sys
 # EAFP - Easy to Ask Forgiveness than Permission
 
 try:
-    names = open("names.txt").readlines() # FileNotFoundError
-    1 / 1 # ZeroDivisionError
-    print(names.append) # AttributeError
-except FileNotFoundError:
-    print("[Error] File names.txt not found!")
+    names = open("names.txt").readlines() 
+    # FileNotFoundError
+except FileNotFoundError as e:
+    print("{str(e)}")
     sys.exit(1)
-except ZeroDivisionError:
-    print("[Error] You cannnot divide by zero!")
-    sys.exit(1)
-except AttributeError:
-    print("[Error] List does not have banana.")
-    sys.exit(1)
-
+    # TODO: Use retry
+else:
+    print("Success!")
+finally:
+    print("Always run this text!")
 
 try:
     print(names[2])
