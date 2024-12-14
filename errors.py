@@ -3,17 +3,15 @@
 import os
 import sys
 
-# LBYL - Look before You Leap
+# EAFP - Easy to Ask Forgiveness than Permission
 
-if os.path.exists("names.txt"):
-    print("The file exists.")
-    input("...") # Race Condition
+try:
     names = open("names.txt").readlines()
-else:
+except: # Bare except
     print("[Error] File names.txt not found!")
 
-if len(names) >= 4:
+try:
     print(names[2])
-else:
+except:
     print("[Error] Missing name in the list.")
     sys.exit(1)
