@@ -8,7 +8,7 @@ import logging
 # TODO: use lib (loguru)
 log_level = os.getenv("LOG_LEVEL", "WARNING").upper() # create a env variable to set the log level the user wants to see
 log = logging.Logger("raquel", log_level) 
-ch = logging.StreamHandler()
+ch = logging.StreamHandler() # Console/terminal/stderr
 ch.setLevel(log_level)
 fmt = logging.Formatter(
     '%(asctime)s %(name)s %(levelname)s l:%(lineno)d f:%(filename)s: %(message)s'
