@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Calculadore prefix
+"""Calculator prefix
 
-Funcionamento:
+Mechanics:
 
-[operação] [n1] [n2]
+[operation] [n1] [n2]
 
-Operações:
+Operations:
 sum -> +
 sub -> -
 mul -> *
 div -> /
 
-Uso:
+Use:
 $ prefixcal.py sum 5 2
 7
 
@@ -19,12 +19,12 @@ $ prefixcal.py mul 10 5
 50
 
 $ prefixcal.py
-operação: sum
+operation: sum
 n1: 5
 n2: 4
 9
 """
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __author__ = "Raquel Marques"
 __license__ = "Unlicense"
 
@@ -34,30 +34,30 @@ from datetime import datetime
 
 arguments = sys.argv[1:]
 
-# TODO: Exceptions
+# Validation
 if not arguments:
-    operation = input("operação:")
+    operation = input("operation:")
     n1 = input("n1:")
     n2 = input("n2:")
     arguments = [operation, n1, n2]
 elif len(arguments) != 3:
-    print("Número de argumentos inválidos!")
-    print("ex: `sum 5 5`")
+    print("Invalid number of arguments")
+    print("ex: `sum 5 5")
     sys.exit(1)
 
 operation, *nums = arguments
 
 valid_operations = ("sum", "sub", "mul", "div")
 if operation not in valid_operations:
-    print("Operação inválida!")
+    print("Invalid operation!")
     print(valid_operations)
     sys.exit(1)
 
 validated_nums = []
 for num in nums:
-    # TODO: Repetição WHILE + exceptions
+    # TODO: Repetiiton WHILE + exceptions
     if not num.replace(".", "").isdigit():
-        print(f"Número inválido {num}")
+        print(f"Invalid number {num}")
         sys.exit(1)
     if "." in num:
         num = float(num)
@@ -65,9 +65,13 @@ for num in nums:
         num = int(num)
     validated_nums.append(num)
 
-n1, n2 = validated_nums
+try:
+    n1, n2 = validated_nums
+except ValueError as e:
+    print(f"{str(e)}")
+    sys.exit(1)
 
-# TODO: Usar dicionário de funções
+# TODO: Use functions dictionary
 if operation == "sum":
     result = n1 + n2
 elif operation == "sub":
@@ -82,9 +86,16 @@ filepath = os.path.join(path, "prefixcal.log")
 timestamp = datetime.now().isoformat()
 user = os.getenv('USER', 'anonymous')
 
-with open(filepath, "a") as file_:
-    file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
-
 #print(f"{operation},{n1},{n2} = {result}", file=open(filepath, "a"))
 
-print(f"O resultado é {result}")
+print(f"The result is {result}")
+
+try:
+    with open(filepath, "a") as file_:
+        file_.write(f"{timestamp} - {user} - {operation},{n1},{n2} = {result}\n")
+except PermissionError as e:
+    # TODO: logging
+    print(f"{str(e)}")
+    sys.exit(1)
+
+
