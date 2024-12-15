@@ -3,34 +3,26 @@
 import os
 import logging
 
-log_level = os.getenv("LOG_LEVEL", "WARNING").upper() # create a env variable to set the log level the user wants to see
-
 ## BOILERPLATE - configuring logger
 # TODO: use fuction
 # TODO: use lib (loguru)
-# instance
+log_level = os.getenv("LOG_LEVEL", "WARNING").upper() # create a env variable to set the log level the user wants to see
 log = logging.Logger("raquel", log_level) 
-
-# level (default it only prints warning+)
 ch = logging.StreamHandler()
 ch.setLevel(log_level)
-
-# formatting
 fmt = logging.Formatter(
     '%(asctime)s %(name)s %(levelname)s l:%(lineno)d f:%(filename)s: %(message)s'
 )
 ch.setFormatter(fmt)
-
-# save to path
 log.addHandler(ch)
 
+"""
 log.debug("Message to dev, qe, sysadmin")
 log.info("General message to the user")
 log.warning("Message of warning that does not happen due to an error")
 log.error("Error that affects a single exectution")
 log.critical("General problem has occurred, ex. dataset does not exist!")
-
-print("---")
+"""
 
 try:
     1 / 0
