@@ -2,19 +2,28 @@
 
 import os
 import logging
+from logging import handlers
 
 ## BOILERPLATE - configuring logger
 # TODO: use fuction
 # TODO: use lib (loguru)
 log_level = os.getenv("LOG_LEVEL", "WARNING").upper() # create a env variable to set the log level the user wants to see
 log = logging.Logger("raquel", log_level) 
-ch = logging.StreamHandler() # Console/terminal/stderr
-ch.setLevel(log_level)
+#ch = logging.StreamHandler() # Console/terminal/stderr
+#ch.setLevel(log_level)
+fh = handlers.RotatingFileHandler(
+    "MyLog.log",
+    maxBytes=300, # maxBytes=10**6 = 1MB
+    backupCount=10,
+) 
+fh.setLevel(log_level)
 fmt = logging.Formatter(
     '%(asctime)s %(name)s %(levelname)s l:%(lineno)d f:%(filename)s: %(message)s'
 )
-ch.setFormatter(fmt)
-log.addHandler(ch)
+#ch.setFormatter(fmt)
+fh.setFormatter(fmt)
+#log.addHandler(ch)
+log.addHandler(fh)
 
 """
 log.debug("Message to dev, qe, sysadmin")
