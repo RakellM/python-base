@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 
+import os
 import logging
 
-## Boiler plate - configuring logger
+log_level = os.getenv("LOG_LEVEL", "WARNING").upper() # create a env variable to set the log level the user wants to see
+
+## BOILERPLATE - configuring logger
+# TODO: use fuction
+# TODO: use lib (loguru)
 # instance
-log = logging.Logger(__name__, logging.DEBUG) # main
+log = logging.Logger("raquel", log_level) 
 
 # level (default it only prints warning+)
 ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+ch.setLevel(log_level)
 
 # formatting
 fmt = logging.Formatter(
