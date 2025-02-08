@@ -15,7 +15,7 @@ Raaquueel
 
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Raquel Marques"
 __license__ = "Unlicense"
 
@@ -31,20 +31,24 @@ vowels = "aeiou"
 
 while True:
     word = input("Digite uma palavra (ou enter para sair):").strip()
+    if not word:
+        break
+
+    inputs_list.append(word)
     final_word = ''
     for letter in word:
         # TODO: Remove accents with a fucntion.
         if letter.lower() in vowels:
-            final_word += letter *2
+            final_word += letter * 2
         else:
             final_word += letter
+        # alternative IF condition
+        # final_word += letter * 2 if letter.lower() in vowels else letter
     output_list.append(final_word)
-    if not word:
-        break
-    inputs_list.append(word)
 
-print(inputs_list)
+#print(inputs_list)
 
-for word in output_list:
-    print(word)
+##for word in output_list:
+##    print(word)
 
+print(*output_list , sep="\n")
