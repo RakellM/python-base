@@ -13,59 +13,39 @@ temp less 0: ALERT: Extreme cold
 
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Raquel Marques"
 __license__ = "Unlicense"
 
-import os
 import sys
+import logging
 
-arguments = sys.argv[1:]
+log = logging.Logger("temperature_alert")
 
-if not arguments:
-    temp = input("temperature in Celsius:")
-    hum = input("humidity in %:")
-    arguments = [temp, hum]
-elif len(arguments) != 2:
-    print("Invalid number of arguments")
-    print("ex: `25 85")
-    print("Temperature in Celsius | Humidity in percentage")
-    sys.exit(1)
+info = { 
+    "temperature": None ,
+    "humidity": None
+} 
 
-print(arguments)
+keys = info.keys()
 
-temp, hum = arguments
-
-validate_nums = []
-for num in arguments:
-    if not num.replace(".", "").isdigit():
-        print(f"Invalid number {num}")
+for key in keys: 
+    try:
+        info[key] = float(input(f"What is the {key}?").strip())
+    except ValueError:
+        log.error(f"Invalid {key}")
         sys.exit(1)
-    if "." in num:
-        num = float(num)
-    else:
-        num = int(num)
-    validate_nums.append(num)
 
-try:
-    temp, hum = validate_nums
-except ValueError as e:
-    print(f"{str(e)}")
-    sys.exit(1)
+temp = info['temperature']
+hum = info["humidity"]
 
-if temp >= 2 * hum and temp != 0 and hum != 0:
-    print('ALERT!! Danger of humid heat')
-else:
-    if temp < 0:
-        print('ALERT: Extreme cold')
-    elif temp >= 0 and temp < 10:
-        print('Cold')
-    elif temp >= 10 and temp < 30:
-        print('Normal')
-    elif temp >= 10 and temp < 30:
-        print('Normal')
-    elif temp > 45:
-        print('ALERT!!! Danger of extreme heat')
-    else:
-        print('I do not have a condition for that 🥴')
-
+if temp > 45:
+    print('ALERT!!! 🥵 Danger of extreme heat')
+elif temp * 3 >= hum and temp != 0:
+    print('ALERT!! 🥵♒ Danger of humid heat')
+elif temp >= 10 and temp < 30:
+    print('🙂 Normal')
+elif temp >= 0 and temp < 10:
+    print('🥶 Cold')
+elif temp < 0:
+    print('ALERT: ⛄ Extreme cold')
