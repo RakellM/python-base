@@ -1,4 +1,2 @@
 Bruno,1,6
 Maria,3,8
-Joe,2,10
-Mike,4,8

@@ -2,7 +2,7 @@
 """
 Reservation
 
-Create a termianl code that shows the user a list of available rooms 
+Create a terminal code that shows the user a list of available rooms 
 to rent and the price of each room, this information will be available 
 in a text file separated by commas.
 
@@ -25,29 +25,36 @@ If another user tries to rent the same room, the code shou give them a
 message informing that the room is already reserved.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Raquel Marques"
 __license__ = "Unlicense"
 
 import sys
 import logging
 
+ROOMS_FILE = "reservation_rooms.txt"
+RESERVATION_FILE = "reservation_reserved.txt"
+
+# TODO: Use csv
+# TODO: Use function to read files
+
+# Accessing datasets
 occupied = {}
 try:
-    for line in open("reservation_reserved.txt"):
-        name, roomCode, roomDays = line.strip().split(",")
+    for line in open(RESERVATION_FILE):
+        userName, roomCode, roomDays = line.strip().split(",")
         occupied[int(roomCode)] = {
-            "name": name,
-            "days": roomDays
+            "clientName": userName,
+            "days": int(roomDays)
         }
 except FileNotFoundError:
-    logging.error("File reservation_reserved.txt do not exist.")
+    logging.error(f"File {RESERVATION_FILE} do not exist.")
     sys.exit(1)
 
 
 rooms = {}
 try:
-    for line in open("reservation_rooms.txt"):
+    for line in open(ROOMS_FILE):
         code, name, price = line.strip().split(",")
         rooms[int(code)] = {
             "name": name,
@@ -55,38 +62,45 @@ try:
             "available": False if int(code) in occupied else True
         }
 except FileNotFoundError:
-    logging.error("File reservation_rooms.txt do not exist.")
+    logging.error(f"File {ROOMS_FILE} do not exist.")
     sys.exit(1)
 
+# Main Code
 print("Pythonic Hotel Reservation")
-print("-" * 40 + "\n")
+print("-" * 52 + "\n")
 
 if len(occupied) == len(rooms):
     print("Pythonic Hotel is full, no rooms available at this time!")
-    sys.exit(1)
+    sys.exit(0)
 
 userName = input("Client Name:")
-print("-" * 40)
+
+print("-" * 52)
 print("List of Rooms Available")
+print()
+
+head = ["Availability", "Room Code", "Description", "Price"]
+print(f"{head[0]:<11} - {head[1]:<9} - {head[2]:<12} - $ {head[3]:<9}")
 for code, data in rooms.items():
     name = data["name"]
     price = data["price"]
     available = "⛔" if not data["available"] else "🟢"
     #available = data["available"] and "🟢" or "⛔"
-    print(f"{code} - {name} - $ {price:.2f} - {available}")
-print("-" * 40)
+    print(f"{available:<11} - {code:<9} - {name:<12} - $ {price:<9.2f}")
+print("-" * 52)
 
 
 try:
     roomCode = int(input("Room number:").strip())
     if not rooms[roomCode]["available"]:
         print(f"Room {roomCode} is not available.")
-        sys.exit(1)
+        sys.exit(0)
 except ValueError:
     logging.error("Number is invalid. Use only digits.")
     sys.exit(1)
 except KeyError:
     print(f"Room {roomCode} does not exist.")
+    sys.exit(0)
 
 try:
     roomDays = int(input("Quantity of Days?:").strip())
@@ -100,10 +114,12 @@ roomAvailable = rooms[roomCode]["available"]
 
 total = roomPrice * roomDays
 
+print(f"{userName} you choose the {name} ({roomCode}) for {roomDays} days "
+      f"and that will cost $ {total:.2f}.")
+
 #print((f"{userName},{roomCode},{roomDays}"))
 #print(",".join([userName, str(roomCode), str(roomDays)]))
 
-with open("reservation_reserved.txt", "a") as file_:
-    file_.write(f"{userName},{roomCode},{roomDays}\n")
-
-print(f"{userName} you choose the {name} ({roomCode}) for {roomDays} days and that will cost $ {total:.2f}.")
+if input("Confirm? [Y/n]").strip().lower() in ("y", "yes"):
+    with open("reservation_reserved.txt", "a") as file_:
+        file_.write(f"{userName},{roomCode},{roomDays}\n")
