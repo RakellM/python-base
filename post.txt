@@ -1,0 +1,8 @@
+title:My post
+tags:tech,general
+date:2024-12-15
+published:1
+---
+This is my post.
+Here it should have text and content.
+etc. etc. etc.

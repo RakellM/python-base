@@ -1,0 +1,4 @@
+My first note	general	This is my first note!
+My second note	tech	Python is amazing!
+My third note	tech	R também é legal!
+Fixing Outputs	general	Fix exceptions!
