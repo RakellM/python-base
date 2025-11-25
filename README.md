@@ -1,10 +1,10 @@
 # LinuxTips
 
 ## Python-Base
-Start:
+Start: \
 End: Feb/2025
 
 ## Descomplicando Python
-Start: Oct/2025
+Start: Oct/2025 \
 End: 
 
