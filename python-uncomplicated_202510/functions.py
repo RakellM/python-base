@@ -67,5 +67,10 @@ print(list(map(heron2, triagles)))
 
 ###
 
+def nome_da_funcao():
+    print("Hello funcao")
+    return 1
 
+result = nome_da_funcao()
+print(result)
 
