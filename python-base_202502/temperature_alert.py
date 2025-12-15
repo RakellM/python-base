@@ -22,6 +22,9 @@ import logging
 
 log = logging.Logger("temperature_alert")
 
+# TODO: Move to utility module.
+
+
 def is_completely_filled(dict_of_inputs):
     """Returns a boolean telling if a dict is completely filled."""
     info_size = len(dict_of_inputs)
@@ -29,28 +32,30 @@ def is_completely_filled(dict_of_inputs):
     return info_size == filled_size
 
 
+def read_inputs_for_dict(dict_of_info):
+    """Reads information for a dict from user input."""
+    for key in dict_of_info.keys():  # ["temperature", "humidity"]
+        if dict_of_info[key] is not None:
+            continue
+        try:
+            dict_of_info[key] = int(input(f"What is the {key}?").strip())
+        except ValueError:
+            log.error(f"Invalid {key}")
+            break  # stop for
+                         
+
+## Main Code
+
 info = { 
     "temperature": None ,
     "humidity": None
 } 
 
-while True:
-    if is_completely_filled(info):
-        break #stop while
+while not is_completely_filled(info):
+    read_inputs_for_dict(info)
 
-    keys = info.keys()
 
-    for key in keys: 
-        if info[key] is not None:
-            continue
-        try:
-            info[key] = float(input(f"What is the {key}?").strip())
-        except ValueError:
-            log.error(f"Invalid {key}")
-            sys.exit(1)
-
-temp = info['temperature']
-hum = info["humidity"]
+temp, hum = info.values()   # unpacking
 
 if temp > 45:
     print('ALERT!!! 🥵 Danger of extreme heat')
