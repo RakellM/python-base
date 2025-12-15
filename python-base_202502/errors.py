@@ -2,23 +2,25 @@
 
 import os
 import sys
+import logging
+
+log = logging.Logger("errors")
 
 # EAFP - Easy to Ask Forgiveness than Permission
 
-try:
-    names = open("names.txt").readlines() 
-    # FileNotFoundError
-except FileNotFoundError as e:
-    print("{str(e)}")
-    sys.exit(1)
-    # TODO: Use retry
-else:
-    print("Success!")
-finally:
-    print("Always run this text!")
+def try_to_open_a_file(filepath, retry=1) -> list:
+    """Tries to open a file, if error, retries n times."""
+    for attempt in range(1, rety + 1):
+        try:
+            return open(filepath).readlines() # FileNotFoundError
+        except FileNotFoundError as e:
+            print("{str(e)}")
+        else:
+            print("Success!")
+        finally:
+            print("Always run this text!")
+    return []
 
-try:
-    print(names[2])
-except:
-    print("[Error] Missing name in the list.")
-    sys.exit(1)
+
+for line in try_to_open_a_file("names.txt"):
+    print(line)
