@@ -1,4 +1,4 @@
-"""Imprime apenas os nomes iniciados com a letra B"""
+"""Print only names that starts with letter B"""
 
 names = [
     "Bruno",
@@ -9,14 +9,14 @@ names = [
 ]
 
 
-# estilo funcional
-print("Estilo funcional")
+# Functional Style
+print("Functional style")
 print(*list(filter(lambda text: text[0].lower() == "b", names)), sep="\n")
 
 print()
 
-# estilo imperativo
-print("Estilo procedural")
+# Procedure Style
+print("EProcedure style")
 
 
 def starts_with_b(text):
@@ -24,7 +24,7 @@ def starts_with_b(text):
     return text[0].lower() == "b"
 
 
-filtro = filter(starts_with_b, names)
-filtro = list(filtro)
-for name in filtro:
+filter_ = filter(starts_with_b, names)
+filter_ = list(filter_)
+for name in filter_:
     print(name)
