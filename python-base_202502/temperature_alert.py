@@ -13,7 +13,7 @@ temp less 0: ALERT: Extreme cold
 
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __author__ = "Raquel Marques"
 __license__ = "Unlicense"
 
@@ -22,7 +22,12 @@ import logging
 
 log = logging.Logger("temperature_alert")
 
-# TODO: Use functions to read inputs
+def is_completely_filled(dict_of_inputs):
+    """Returns a boolean telling if a dict is completely filled."""
+    info_size = len(dict_of_inputs)
+    filled_size = len([value for value in dict_of_inputs.values() if value is not None])
+    return info_size == filled_size
+
 
 info = { 
     "temperature": None ,
@@ -30,10 +35,7 @@ info = {
 } 
 
 while True:
-    # stop condition: dictionary is fully filled
-    info_size = len(info.values())
-    filled_size = len([value for value in info.values() if value is not None])
-    if info_size == filled_size:
+    if is_completely_filled(info):
         break #stop while
 
     keys = info.keys()
