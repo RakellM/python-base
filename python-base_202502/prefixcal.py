@@ -24,7 +24,7 @@ n1: 5
 n2: 4
 9
 """
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 __author__ = "Raquel Marques"
 __license__ = "Unlicense"
 
@@ -32,10 +32,23 @@ import os
 import sys
 from datetime import datetime
 
+arguments = sys.argv[1:]
+
+valid_operations = {
+    "sum": lambda a, b: a + b, 
+    "sub": lambda a, b: a - b, 
+    "mul": lambda a, b: a * b, 
+    "div": lambda a, b: a / b,
+}
+
+path = os.curdir
+filepath = os.path.join(path, "prefixcal.log")
+timestamp = datetime.now().isoformat()
+user = os.getenv('USER', 'anonymous')
+
+
+
 while True:
-
-    arguments = sys.argv[1:]
-
     # Validation
     if not arguments:
         operation = input("operation:")
@@ -49,7 +62,6 @@ while True:
 
     operation, *nums = arguments
 
-    valid_operations = ("sum", "sub", "mul", "div")
     if operation not in valid_operations:
         print("Invalid operation!")
         print(valid_operations)
@@ -73,20 +85,7 @@ while True:
         print(f"{str(e)}")
         sys.exit(1)
 
-    # TODO: Use functions dictionary
-    if operation == "sum":
-        result = n1 + n2
-    elif operation == "sub":
-        result = n1 - n2
-    elif operation == "mul":
-        result = n1 * n2
-    elif operation == "div":
-        result = n1 / n2
-
-    path = os.curdir
-    filepath = os.path.join(path, "prefixcal.log")
-    timestamp = datetime.now().isoformat()
-    user = os.getenv('USER', 'anonymous')
+    result = valid_operations[operation](n1, n2)
 
     #print(f"{operation},{n1},{n2} = {result}", file=open(filepath, "a"))
 
